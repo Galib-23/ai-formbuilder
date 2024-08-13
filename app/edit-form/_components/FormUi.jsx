@@ -9,9 +9,10 @@ import {
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Checkbox } from "@/components/ui/checkbox"
+import FieldEdit from "./FieldEdit";
 
-const FormUi = ({ jsonForm }) => {
-  console.log(jsonForm)
+const FormUi = ({ jsonForm, onFieldUpdate }) => {
+
   return (
     <div className="border p-5 rounded-lg">
       <h2 className="font-bold text-center text-2xl">{jsonForm?.formTitle}</h2>
@@ -20,9 +21,9 @@ const FormUi = ({ jsonForm }) => {
       </h2>
 
       {jsonForm?.formFields?.map((field, idx) => (
-        <div key={idx}>
+        <div className="flex items-center gap-2" key={idx}>
           {field?.fieldType == "select" ? (
-            <div className="my-4">
+            <div className="my-3 w-full">
               <label className="text-sm text-gray-800">
                 {field?.fieldLabel}
               </label>
@@ -40,7 +41,7 @@ const FormUi = ({ jsonForm }) => {
               </Select>
             </div>
           ) : field?.fieldType == "radio" ? (
-            <div className="my-5">
+            <div className="my-3 w-full">
               <label className="text-sm text-gray-800">
                 {field?.fieldLabel}
               </label>
@@ -54,7 +55,7 @@ const FormUi = ({ jsonForm }) => {
               </RadioGroup>
             </div>
           ) : field?.fieldType == "checkbox" ? (
-            <div className="my-4">
+            <div className="my-3 w-full">
               <label className="text-sm text-gray-800">{field?.fieldLabel}</label>
               { field?.options ?
                 field?.options?.map((item,  idx) => (
@@ -71,7 +72,7 @@ const FormUi = ({ jsonForm }) => {
               }
             </div>
           ) : (
-            <div className="my-4">
+            <div className="my-3 w-full">
               <label className="text-sm text-gray-800">
                 {field?.fieldLabel}
               </label>
@@ -82,6 +83,9 @@ const FormUi = ({ jsonForm }) => {
               />
             </div>
           )}
+          <div>
+            <FieldEdit defaultValue={field} onUpdate={(value) => onFieldUpdate(value, idx)} />
+          </div>
         </div>
       ))}
     </div>
