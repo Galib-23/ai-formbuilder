@@ -14,15 +14,17 @@ import { useUser } from "@clerk/nextjs";
 import { db } from "@/configs";
 import { jsonForms } from "@/configs/schema";
 import moment from "moment/moment";
+import { useRouter } from "next/navigation";
 
 const CreateForm = () => {
   const [openDialog, setOpenDialog] = useState(false);
   const [userInput, setUserInput] = useState("");
   const [loading, setLoading] = useState(false);
   const { user } = useUser();
+  const router = useRouter();
 
   const PROMPT =
-    ", On the basis of the description please give a form in json format with form title, form subheading with form having form field, form name, placeholder name, and form label, fieldType, field required in Json format";
+    ", On the basis of the description please give a form in json format with form 'formTitle', form 'subHeading' with 'formFields' having 'fieldName', 'fieldLabel', 'placeholder', 'fieldType', and 'required' in Json format. Along with these properties for 'fieldType' == 'select', 'checkbox', and 'radio' there will be 'options' array of objects with 'value' and 'label' "
 
   const onCreateForm = async () => {
     setLoading(true);
@@ -39,14 +41,16 @@ const CreateForm = () => {
             createdAt: moment().format("DD/MM/yyyy"),
           })
           .returning({ id: jsonForms.id });
-        console.log("res: ", res);
         setLoading(false);
+        setUserInput("");
+        if (res[0].id) {
+          router.push(`/edit-form/${res[0].id}`);
+        }
       }
     } catch (error) {
-        console.log(error.message)
-        setLoading(false);
+      console.log(error.message);
+      setLoading(false);
     }
-    
   };
 
   return (
