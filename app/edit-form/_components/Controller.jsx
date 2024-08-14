@@ -1,4 +1,6 @@
+import GradientBg from "@/app/_data/GradientBg";
 import Themes from "@/app/_data/Themes";
+import { Button } from "@/components/ui/button";
 import {
   Select,
   SelectContent,
@@ -6,10 +8,14 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { useState } from "react";
 
-const Controller = ({setSelectedTheme}) => {
+const Controller = ({ setSelectedTheme, selectBackground }) => {
+  const [showAllBg, setShowAllBg] = useState(false);
+
   return (
     <div>
+      {/* {Theme Selection} */}
       <h2 className="my-2">Select Themes</h2>
       <Select onValueChange={(value) => setSelectedTheme(value)}>
         <SelectTrigger className="w-full">
@@ -43,6 +49,34 @@ const Controller = ({setSelectedTheme}) => {
           ))}
         </SelectContent>
       </Select>
+
+      {/* Background Controller */}
+      <h2 className="mt-8 my-1">Background</h2>
+      <div className="grid grid-cols-3 gap-5">
+        {GradientBg.map(
+          (bg, idx) =>
+            (!showAllBg ? idx < 6 : showAllBg) && (
+              <div
+                key={idx}
+                onClick={() => selectBackground(bg.gradient)}
+                className="w-full h-[70px] rounded-lg border hover:border-black hover:border-2 cursor-pointer flex items-center justify-center"
+                style={{
+                  background: bg.gradient,
+                }}
+              >
+                {idx == 0 && "None"}
+              </div>
+            ),
+        )}
+      </div>
+      <Button
+        onClick={() => setShowAllBg(!showAllBg)}
+        variant="ghost"
+        size="sm"
+        className="w-full mt-4"
+      >
+        {showAllBg ? "Show Less" : "Show More"}
+      </Button>
     </div>
   );
 };
