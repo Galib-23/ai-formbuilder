@@ -11,10 +11,10 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Checkbox } from "@/components/ui/checkbox"
 import FieldEdit from "./FieldEdit";
 
-const FormUi = ({ jsonForm, onFieldUpdate, deleteField }) => {
+const FormUi = ({ jsonForm, onFieldUpdate, deleteField, selectedTheme }) => {
 
   return (
-    <div className="border p-5 rounded-lg">
+    <div className="border p-5 rounded-lg" data-theme={selectedTheme}>
       <h2 className="font-bold text-center text-2xl">{jsonForm?.formTitle}</h2>
       <h2 className="text-sm text-gray-400 text-center">
         {jsonForm?.subHeading}
@@ -28,7 +28,7 @@ const FormUi = ({ jsonForm, onFieldUpdate, deleteField }) => {
                 {field?.fieldLabel}
               </label>
               <Select>
-                <SelectTrigger className="w-full">
+                <SelectTrigger className="w-full bg-transparent">
                   <SelectValue placeholder="Select" />
                 </SelectTrigger>
                 <SelectContent>

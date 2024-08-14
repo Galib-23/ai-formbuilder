@@ -9,12 +9,17 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import FormUi from "../_components/FormUi";
 import { toast } from "sonner";
+import Controller from "../_components/Controller";
 
 const EditForm = ({ params }) => {
   const { user } = useUser();
   const [jsonForm, setJsonForm] = useState(null);
   const [updateTrigger, setUpdateTrigger] = useState();
   const [record, setRecord] = useState([]);
+  const [selectedTheme, setSelectedTheme] = useState("cupcake");
+
+  // start from 3:03:35
+
   const router = useRouter();
 
   useEffect(() => {
@@ -54,7 +59,7 @@ const EditForm = ({ params }) => {
           eq(jsonForms.createdBy, user?.primaryEmailAddress?.emailAddress),
         ),
       );
-      toast('Updated successfully!')
+    toast("Updated successfully!");
   };
 
   const onFieldUpdate = (value, idx) => {
@@ -68,9 +73,8 @@ const EditForm = ({ params }) => {
   const deleteField = async (idx) => {
     const result = jsonForm?.formFields?.filter((item, index) => index != idx);
     jsonForm.formFields = result;
-    setUpdateTrigger(Date.now())
-  }
-
+    setUpdateTrigger(Date.now());
+  };
 
   return (
     <div className="p-10">
@@ -81,9 +85,16 @@ const EditForm = ({ params }) => {
         <ArrowLeft /> Back
       </h2>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
-        <div className="p-5 rounded-lg border shadow-md">Controller</div>
+        <div className="p-5 rounded-lg border shadow-md">
+          <Controller />
+        </div>
         <div className="md:col-span-2 border rounded-lg p-4 flex min-h-screen items-center justify-center">
-          <FormUi jsonForm={jsonForm} onFieldUpdate={onFieldUpdate} deleteField={(idx) => deleteField(idx)} />
+          <FormUi
+            jsonForm={jsonForm}
+            onFieldUpdate={onFieldUpdate}
+            selectedTheme={selectedTheme}
+            deleteField={(idx) => deleteField(idx)}
+          />
         </div>
       </div>
     </div>
