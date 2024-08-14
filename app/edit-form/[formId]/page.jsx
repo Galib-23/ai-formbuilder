@@ -16,9 +16,7 @@ const EditForm = ({ params }) => {
   const [jsonForm, setJsonForm] = useState(null);
   const [updateTrigger, setUpdateTrigger] = useState();
   const [record, setRecord] = useState([]);
-  const [selectedTheme, setSelectedTheme] = useState("cupcake");
-
-  // start from 3:03:35
+  const [selectedTheme, setSelectedTheme] = useState("light");
 
   const router = useRouter();
 
@@ -86,7 +84,7 @@ const EditForm = ({ params }) => {
       </h2>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
         <div className="p-5 rounded-lg border shadow-md">
-          <Controller />
+          <Controller setSelectedTheme={setSelectedTheme} />
         </div>
         <div className="md:col-span-2 border rounded-lg p-4 flex min-h-screen items-center justify-center">
           <FormUi

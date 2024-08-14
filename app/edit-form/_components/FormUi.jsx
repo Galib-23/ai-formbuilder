@@ -88,6 +88,7 @@ const FormUi = ({ jsonForm, onFieldUpdate, deleteField, selectedTheme }) => {
           </div>
         </div>
       ))}
+      <button className="btn btn-primary">Submit</button>
     </div>
   );
 };
