@@ -9,14 +9,18 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { useState } from "react";
+import Borders from "./Borders";
 
-const Controller = ({ setSelectedTheme, selectBackground }) => {
+const Controller = ({ setSelectedTheme, selectBackground, disabled, updateControllerFields }) => {
   const [showAllBg, setShowAllBg] = useState(false);
 
   return (
     <div>
       {/* {Theme Selection} */}
-      <h2 className="my-2">Select Themes</h2>
+      <div className="flex items-center justify-between mb-2">
+        <h2 className="my-2">Select Themes</h2>
+        <Button onClick={updateControllerFields} className={`${disabled && 'hidden'}`} size="sm">Save</Button>
+      </div>
       <Select onValueChange={(value) => setSelectedTheme(value)}>
         <SelectTrigger className="w-full">
           <SelectValue placeholder="Theme" />
@@ -77,6 +81,7 @@ const Controller = ({ setSelectedTheme, selectBackground }) => {
       >
         {showAllBg ? "Show Less" : "Show More"}
       </Button>
+      <Borders />
     </div>
   );
 };
