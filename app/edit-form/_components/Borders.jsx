@@ -1,4 +1,5 @@
-const Borders = () => {
+"use client";
+const Borders = ({ setFormStyle }) => {
   const borders = [
     {
       id: 1,
@@ -23,11 +24,14 @@ const Borders = () => {
         {borders.map((border) => (
           <div
             key={border.id}
+            onClick={() => setFormStyle(border.styles)}
             className="p-2 h-24 w-full bg-slate-200 rounded-lg flex items-center justify-center cursor-pointer"
           >
             <div
-              className={`bg-white w-16 h-16 ${border.styles} hover:scale-105 transition-all`}
-            ></div>
+              className={`bg-white w-16 h-16 ${border.styles} hover:scale-105 transition-all text-sm flex items-center justify-center`}
+            >
+              {border.name}
+            </div>
           </div>
         ))}
       </div>

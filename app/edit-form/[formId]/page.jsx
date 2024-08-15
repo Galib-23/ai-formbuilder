@@ -15,9 +15,10 @@ const EditForm = ({ params }) => {
   const [jsonForm, setJsonForm] = useState(null);
   const [updateTrigger, setUpdateTrigger] = useState();
   const [record, setRecord] = useState([]);
-  const [selectedTheme, setSelectedTheme] = useState();
-  const [selectedBg, setSelectedBg] = useState();
+  const [selectedTheme, setSelectedTheme] = useState("");
+  const [selectedBg, setSelectedBg] = useState("");
   const [disabled, setDisabled] = useState(true);
+  const [formStyle, setFormStyle] = useState("");
 
   const router = useRouter();
 
@@ -36,9 +37,13 @@ const EditForm = ({ params }) => {
         ),
       );
     setRecord(result[0]);
+
     setJsonForm(JSON.parse(result[0].jsonform));
+
+
     setSelectedTheme(result[0].theme);
     setSelectedBg(result[0].background);
+    setFormStyle(result[0].style)
   };
 
   useEffect(() => {
@@ -78,12 +83,12 @@ const EditForm = ({ params }) => {
   };
 
   useEffect(() => {
-    if (record.theme == selectedTheme && record.background == selectedBg) {
+    if (record.theme == selectedTheme && record.background == selectedBg && record.style == formStyle) {
       setDisabled(true);
     } else {
       setDisabled(false);
     }
-  }, [selectedBg, selectedTheme]);
+  }, [selectedBg, selectedTheme, formStyle]);
 
   const updateControllerFields = async () => {
     const result = await db
@@ -91,6 +96,7 @@ const EditForm = ({ params }) => {
       .set({
         theme: selectedTheme,
         background: selectedBg,
+        style: formStyle
       })
       .where(
         and(
@@ -104,6 +110,7 @@ const EditForm = ({ params }) => {
         setDisabled(true)
       }
   };
+
 
   return (
     <div className="p-10">
@@ -120,6 +127,7 @@ const EditForm = ({ params }) => {
           <Controller
             selectBackground={(value) => setSelectedBg(value)}
             setSelectedTheme={setSelectedTheme}
+            setFormStyle={setFormStyle}
             disabled={disabled}
             updateControllerFields={updateControllerFields}
           />
@@ -135,6 +143,7 @@ const EditForm = ({ params }) => {
             onFieldUpdate={onFieldUpdate}
             selectedTheme={selectedTheme}
             deleteField={(idx) => deleteField(idx)}
+            formStyle={formStyle}
           />
         </div>
       </div>

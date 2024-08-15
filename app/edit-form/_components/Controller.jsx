@@ -11,7 +11,7 @@ import {
 import { useState } from "react";
 import Borders from "./Borders";
 
-const Controller = ({ setSelectedTheme, selectBackground, disabled, updateControllerFields }) => {
+const Controller = ({ setSelectedTheme, selectBackground, disabled, updateControllerFields, setFormStyle }) => {
   const [showAllBg, setShowAllBg] = useState(false);
 
   return (
@@ -81,7 +81,7 @@ const Controller = ({ setSelectedTheme, selectBackground, disabled, updateContro
       >
         {showAllBg ? "Show Less" : "Show More"}
       </Button>
-      <Borders />
+      <Borders setFormStyle={setFormStyle} />
     </div>
   );
 };
