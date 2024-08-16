@@ -1,6 +1,6 @@
 "use client";
 import { db } from "@/configs";
-import { jsonForms } from "@/configs/schema";
+import { jsonForms, userResponse } from "@/configs/schema";
 import { eq } from "drizzle-orm";
 import { useEffect, useState } from "react";
 import { Input } from "@/components/ui/input";
@@ -14,17 +14,28 @@ import {
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Checkbox } from "@/components/ui/checkbox";
+import moment from "moment";
+import { toast } from "sonner";
 
 const LiveAiForm = ({ params }) => {
+  const [record, setRecord] = useState(null);
   const [jsonForm, setJsonForm] = useState(null);
   const [selectedTheme, setSelectedTheme] = useState("");
   const [selectedBg, setSelectedBg] = useState("");
   const [formStyle, setFormStyle] = useState("");
   const [formData, setFormData] = useState(null);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     console.log(formData);
+    const result = await db.insert(userResponse).values({
+      jsonResponse: formData,
+      createdAt: moment().format('DD/MM/yyyy'),
+      formRef: record?.id
+    })
+    if (result) {
+      toast('Response submitted successfully')
+    }
   };
 
   const handleInputChange = (e) => {
@@ -62,6 +73,7 @@ const LiveAiForm = ({ params }) => {
       .from(jsonForms)
       .where(eq(jsonForms.id, Number(params?.formid)));
     setJsonForm(JSON.parse(result[0].jsonform));
+    setRecord(result[0]);
     setSelectedTheme(result[0].theme);
     setSelectedBg(result[0].background);
     setFormStyle(result[0].style);
