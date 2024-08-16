@@ -3,12 +3,14 @@ import { db } from "@/configs";
 import { jsonForms } from "@/configs/schema";
 import { useUser } from "@clerk/nextjs";
 import { and, eq } from "drizzle-orm";
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft, Link2, Share2 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import FormUi from "../_components/FormUi";
 import { toast } from "sonner";
 import Controller from "../_components/Controller";
+import { Button } from "@/components/ui/button";
+import Link from "next/link";
 
 const EditForm = ({ params }) => {
   const { user } = useUser();
@@ -40,10 +42,9 @@ const EditForm = ({ params }) => {
 
     setJsonForm(JSON.parse(result[0].jsonform));
 
-
     setSelectedTheme(result[0].theme);
     setSelectedBg(result[0].background);
-    setFormStyle(result[0].style)
+    setFormStyle(result[0].style);
   };
 
   useEffect(() => {
@@ -83,7 +84,11 @@ const EditForm = ({ params }) => {
   };
 
   useEffect(() => {
-    if (record.theme == selectedTheme && record.background == selectedBg && record.style == formStyle) {
+    if (
+      record.theme == selectedTheme &&
+      record.background == selectedBg &&
+      record.style == formStyle
+    ) {
       setDisabled(true);
     } else {
       setDisabled(false);
@@ -96,7 +101,7 @@ const EditForm = ({ params }) => {
       .set({
         theme: selectedTheme,
         background: selectedBg,
-        style: formStyle
+        style: formStyle,
       })
       .where(
         and(
@@ -104,23 +109,35 @@ const EditForm = ({ params }) => {
           eq(jsonForms.createdBy, user?.primaryEmailAddress?.emailAddress),
         ),
       );
-      if (result) {
-        console.log(result)
-        toast("Updated successfully");
-        setDisabled(true)
-      }
+    if (result) {
+      console.log(result);
+      toast("Updated successfully");
+      setDisabled(true);
+    }
   };
-
 
   return (
     <div className="p-10">
-      <div className="flex items-center gap-11">
+      <div className="flex justify-between items-center">
         <h2
           onClick={() => router.back()}
           className="flex gap-2 items-center my-5 cursor-pointer hover:font-bold"
         >
           <ArrowLeft /> Back
         </h2>
+        <div className="flex gap-2">
+          {disabled && (
+            <Link href={`/aiform/${record.id}`} target="_blank">
+              <Button className="flex gap-2 items-center" variant="outline">
+                <Link2 className="h-4" />
+                Live Preview
+              </Button>
+            </Link>
+          )}
+          <Button className="flex gap-2 items-center">
+            <Share2 className="h-4" /> Share
+          </Button>
+        </div>
       </div>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
         <div className="p-5 rounded-lg border shadow-md">
