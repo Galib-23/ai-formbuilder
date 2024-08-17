@@ -11,6 +11,7 @@ import { toast } from "sonner";
 import Controller from "../_components/Controller";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import { RWebShare } from "react-web-share";
 
 const EditForm = ({ params }) => {
   const { user } = useUser();
@@ -134,9 +135,19 @@ const EditForm = ({ params }) => {
               </Button>
             </Link>
           )}
-          <Button className="flex gap-2 items-center">
-            <Share2 className="h-4" /> Share
-          </Button>
+          <RWebShare
+            data={{
+              text: jsonForm?.subHeading,
+              url: `http://localhost:3000/aiform/${record?.id}`,
+              title: jsonForm?.formTitle,
+            }}
+            onClick={() => console.log("shared successfully!")}
+          >
+            <Button className="flex gap2" size="sm">
+              <Share2 className="h-4" />
+              Share
+            </Button>
+          </RWebShare>
         </div>
       </div>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-5">

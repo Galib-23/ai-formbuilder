@@ -17,6 +17,7 @@ import { db } from "@/configs";
 import { jsonForms } from "@/configs/schema";
 import { and, eq } from "drizzle-orm";
 import { toast } from "sonner";
+import { RWebShare } from "react-web-share";
 
 const FormListItem = ({ jsonForm, formRecord, refreshData }) => {
   const { user } = useUser();
@@ -66,10 +67,19 @@ const FormListItem = ({ jsonForm, formRecord, refreshData }) => {
       <h2 className="text-sm text-gray-500">{jsonForm?.subHeading}</h2>
       <hr className="my-4" />
       <div className="flex justify-between">
-        <Button className="flex gap2" size="sm" variant="outline">
-          <Share2 className="h-4" />
-          Share
-        </Button>
+        <RWebShare
+          data={{
+            text: jsonForm?.subHeading,
+            url: `http://localhost:3000/aiform/${formRecord?.id}`,
+            title: jsonForm?.formTitle,
+          }}
+          onClick={() => console.log("shared successfully!")}
+        >
+          <Button className="flex gap2" size="sm" variant="outline">
+            <Share2 className="h-4" />
+            Share
+          </Button>
+        </RWebShare>
         <Link href={`/edit-form/${formRecord?.id}`}>
           <Button className="flex gap2" size="sm">
             <Edit className="h-4" />
