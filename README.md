@@ -1,6 +1,6 @@
-# Smart Forms
+# Formify
 
-Smart Forms is an AI-powered form builder that allows users to create, customize, and manage forms with ease. Powered by AI, users can simply provide a prompt about the type of form they need, and Smart Forms will generate it. Users can sign up for free and create up to 3 forms, or upgrade to the Pro version for unlimited form creation.
+Formify is an AI-powered form builder that allows users to create, customize, and manage forms with ease. Powered by AI, users can simply provide a prompt about the type of form they need, and Formify will generate it. Users can sign up for free and create up to 3 forms, or upgrade to the Pro version for unlimited form creation.
 
 ## Features
 
