@@ -13,7 +13,10 @@ const Header = () => {
   return !path.includes('aiform') && (
     <div className="p-5 border-b shadow-sm">
       <div className="flex items-center justify-between">
-        <Image src={"/logo.svg"} width={180} height={50} alt="logo" />
+        <div className="flex items-center gap-2">
+        <Image src={"/logo.svg"} width={50} height={50} alt="logo" />
+        <h2 className="text-2xl font-semibold">Smart Forms</h2>
+        </div>
         {isSignedIn ? (
           <div className="flex items-center gap-5">
             <Link href={'/dashboard'}>
